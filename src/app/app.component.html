@@ -11,3 +11,16 @@
     </div>
   </p-toolbar>
 </header>
+
+<section class="fileUploadContainer" style="margin-top: 1rem">
+  <div class="card flex justify-content-center">
+    <p-toast />
+    <p-fileUpload
+      (onSelect)="uploadHandler($event)"
+      [multiple]="false"
+      accept="text/csv"
+      [maxFileSize]="maxFileSize"
+    >
+    </p-fileUpload>
+  </div>
+</section>

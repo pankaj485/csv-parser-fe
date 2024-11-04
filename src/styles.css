@@ -10,3 +10,11 @@ body {
   max-width: 1400px;
   margin: auto;
 }
+
+.p-fileupload-content {
+  padding: 0 !important;
+}
+
+.p-toolbar {
+  padding: 0.5rem !important;
+}
