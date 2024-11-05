@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
+import hljs from 'highlight.js/lib/core';
+import hljsJson from 'highlight.js/lib/languages/json';
 import {
   ConfirmationService,
   MessageService,
@@ -17,6 +19,8 @@ import { PanelModule } from 'primeng/panel';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
+import { sampleJsonData } from '../../db/samplejson';
+hljs.registerLanguage('json', hljsJson);
 
 @Component({
   selector: 'app-root',
@@ -57,6 +61,8 @@ export class AppComponent {
     .map((item, i) => item + (i + 1));
   selectedFileHeaders: string[] = [];
   selectAll: boolean = false;
+
+  ngAfterViewInit() {}
 
   ngOnInit() {
     this.primengConfig.ripple = true;
@@ -139,6 +145,9 @@ export class AppComponent {
         detail: 'Getting JSON data',
         life: this.messageLife,
       });
+
+      const element = <HTMLElement>document.getElementById('codeBlock');
+      element.innerHTML = JSON.stringify(sampleJsonData, undefined, 2);
     }
   }
 }

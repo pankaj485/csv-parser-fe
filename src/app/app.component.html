@@ -73,3 +73,13 @@
     </p-fieldset>
   </div>
 </section>
+
+<section id="codePreviewContainer" style="margin-top: 1.5rem">
+  <p-panel header="">
+    <p-scrollPanel
+      [style]="{ width: '100%', maxHeight: '500px', overflowY: 'scroll' }"
+    >
+      <pre><code class="language-json" id="codeBlock"></code></pre>
+    </p-scrollPanel>
+  </p-panel>
+</section>
