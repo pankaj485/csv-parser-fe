@@ -159,4 +159,16 @@ export class AppComponent {
       element.innerHTML = JSON.stringify(sampleJsonData, undefined, 2);
     }
   }
+
+  copyToClipBoard() {
+    const data: string = this.codeBlockElement.nativeElement.innerText;
+    window.navigator.clipboard.writeText(data).then(() => {
+      this.messageService.add({
+        severity: 'info',
+        summary: 'Success!',
+        detail: 'JSON data copied to Clipboard',
+        life: this.messageLife,
+      });
+    });
+  }
 }
