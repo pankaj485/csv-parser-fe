@@ -47,6 +47,8 @@ export class FileUploadComponent {
         });
 
         this.statesService.collapseFileUploadField.set(true);
+        this.statesService.collapseHeadersField.set(false);
+        this.statesService.getFileHeaders();
       },
       reject: () => {
         this.messageService.add({

@@ -6,23 +6,25 @@ import { Injectable, signal, WritableSignal } from '@angular/core';
 export class StatesService {
   constructor() {}
 
-  messageLife: WritableSignal<number> = signal(100);
+  messageLife: WritableSignal<number> = signal(1500);
   maxFileSize: WritableSignal<number> = signal(1000000);
 
-  uploadedFile!: WritableSignal<File>;
+  collapseFileUploadField: WritableSignal<boolean> = signal(false);
+  collapseHeadersField: WritableSignal<boolean> = signal(true);
+
+  uploadedFile: WritableSignal<File | null> = signal(null);
   fileHeaders: WritableSignal<string[]> = signal([]);
   selectedHeaders: WritableSignal<string[]> = signal([]);
-  collapseFileUploadField: WritableSignal<boolean> = signal(false);
 
-  setUploadedFile(file: File) {
-    this.uploadedFile.set(file);
+  setSelectedHeaders(value: string[]) {
+    this.selectedHeaders.set(value);
   }
 
-  setFileHeaders(newHeaders: string[]) {
-    this.fileHeaders.set(newHeaders);
-  }
-
-  setSelectedHeaders(newHeaders: string[]) {
-    this.selectedHeaders.set(newHeaders);
+  getFileHeaders() {
+    this.fileHeaders.set(
+      Array(10)
+        .fill('')
+        .map((_, i) => String('header ' + (i + 1)))
+    );
   }
 }

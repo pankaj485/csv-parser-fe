@@ -1,15 +1,15 @@
 <section>
   <div class="card flex justify-content-center">
     <p-fieldset
-      legend="Select File Headers ({{ fileHeaders.length }}) "
+      legend="Select File Headers ({{ statesService.fileHeaders().length }}) "
       [toggleable]="true"
-      [collapsed]="collapseFileHeadersFieldSet"
+      [collapsed]="statesService.collapseHeadersField()"
     >
       <p-scrollPanel
         [style]="{ width: '100%', maxHeight: '120px', overflowY: 'scroll' }"
       >
         <div class="mainDiv">
-          <div *ngIf="fileHeaders.length">
+          <div *ngIf="statesService.fileHeaders().length">
             <p-checkbox
               [(ngModel)]="selectAll"
               label="Select All"
@@ -17,13 +17,13 @@
               (onChange)="toggleSelectAll($event)"
             ></p-checkbox>
           </div>
-          <div *ngFor="let header of fileHeaders">
+          <div *ngFor="let header of statesService.fileHeaders()">
             <p-checkbox
               [(ngModel)]="selectedFileHeaders"
+              (ngModelChange)="updateSelectedHeaders($event)"
               [label]="header"
               name="group"
               [value]="header"
-              (ngModelChange)="checkAllHeadersSelected()"
             ></p-checkbox>
           </div>
         </div>

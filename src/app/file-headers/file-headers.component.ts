@@ -7,6 +7,7 @@ import { CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
 import { DividerModule } from 'primeng/divider';
 import { FieldsetModule } from 'primeng/fieldset';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { StatesService } from '../services/states.service';
 
 @Component({
   selector: 'app-file-headers',
@@ -24,47 +25,52 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
   styleUrl: './file-headers.component.css',
 })
 export class FileHeadersComponent {
-  constructor(private messageService: MessageService) {}
+  constructor(
+    private messageService: MessageService,
+    public statesService: StatesService
+  ) {}
 
   selectAll: boolean = false;
-  messageLife: number = 1500;
-  selectedFileHeaders: string[] = [];
-  collapseFileHeadersFieldSet: boolean = true;
-  fileHeaders: string[] = Array(5)
-    .fill('Header ')
-    .map((item, i) => item + (i + 1));
+  selectedFileHeaders!: string[];
+
+  ngOnInit() {
+    this.selectedFileHeaders = this.statesService.selectedHeaders();
+  }
+
+  updateSelectedHeaders(newHeaders: string[]) {
+    this.statesService.selectedHeaders.set(newHeaders);
+    this.selectAll =
+      this.statesService.fileHeaders().length ===
+      this.statesService.selectedHeaders().length;
+  }
 
   toggleSelectAll(event: CheckboxChangeEvent) {
     if (event.checked) {
-      this.selectedFileHeaders = [...this.fileHeaders];
+      this.selectedFileHeaders = this.statesService.fileHeaders();
+      this.statesService.selectedHeaders.set(this.statesService.fileHeaders());
     } else {
       this.selectedFileHeaders = [];
+      this.statesService.selectedHeaders.set([]);
     }
   }
 
-  checkAllHeadersSelected() {
-    this.selectAll =
-      this.fileHeaders.length === this.selectedFileHeaders.length;
-  }
-
   triggerFileParsing() {
-    if (!this.selectedFileHeaders.length) {
+    if (!this.statesService.selectedHeaders().length) {
       this.messageService.add({
         severity: 'error',
         summary: 'Rejected',
         detail: 'At least 1 header should be selected',
-        life: this.messageLife,
+        life: this.statesService.messageLife(),
       });
     } else {
       this.messageService.add({
         severity: 'info',
         summary: 'Confirmed',
         detail: 'Getting JSON data',
-        life: this.messageLife,
+        life: this.statesService.messageLife(),
       });
 
-      this.collapseFileHeadersFieldSet = true;
-      // this.collapseCodeBlockFieldSet = false;
+      this.statesService.collapseHeadersField.set(true);
     }
   }
 }
