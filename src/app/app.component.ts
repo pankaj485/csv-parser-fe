@@ -67,7 +67,7 @@ export class AppComponent {
 
   title = 'CSV2JSON-A18';
   uploadedFile?: File;
-  maxFileSize: number = 1000000;
+  // maxFileSize: number = 1000000;
   uploadURL = '';
   messageLife: number = 1500;
   fileHeaders: string[] = Array(5)
@@ -89,44 +89,6 @@ export class AppComponent {
   ngOnInit() {
     this.primengConfig.ripple = true;
     this.primengConfig.inputStyle.set('outlined');
-  }
-
-  uploadHandler(event: FileUploadHandlerEvent) {
-    if (event.files[0]) {
-      const btn = <HTMLButtonElement>document.getElementById('confirmBtn');
-      const confirmationEvent = new Event('click');
-      btn.dispatchEvent(confirmationEvent);
-      this.triggerFileUploadConfirmation(confirmationEvent);
-    }
-  }
-
-  triggerFileUploadConfirmation(event: Event) {
-    this.confirmationService.confirm({
-      target: event.target as EventTarget,
-      message: 'Are you sure that you want to proceed?',
-      header: 'Confirmation',
-      icon: 'pi pi-exclamation-triangle',
-      acceptIcon: 'none',
-      rejectIcon: 'none',
-      rejectButtonStyleClass: 'p-button-text',
-      accept: () => {
-        this.messageService.add({
-          severity: 'info',
-          summary: 'Confirmed',
-          detail: 'Getting file headers',
-          life: this.messageLife,
-        });
-        this.getFileHeaders();
-      },
-      reject: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Rejected',
-          detail: 'File parsing aborted',
-          life: this.messageLife,
-        });
-      },
-    });
   }
 
   getFileHeaders() {
