@@ -1,11 +1,12 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { sampleJsonData } from '../../../db/samplejson';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StatesService {
-  constructor() {}
+  constructor(private sanitizer: DomSanitizer) {}
 
   messageLife: WritableSignal<number> = signal(1500);
   maxFileSize: WritableSignal<number> = signal(1000000);
@@ -32,6 +33,10 @@ export class StatesService {
         .fill('')
         .map((_, i) => String('header ' + (i + 1)))
     );
+  }
+
+  getSanitizedHTML(): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(this.parsedJson());
   }
 
   getParsedData() {

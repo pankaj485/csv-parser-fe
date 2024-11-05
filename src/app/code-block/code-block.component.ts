@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { SafeHtml } from '@angular/platform-browser';
 import hljs from 'highlight.js';
 import json from 'highlight.js/lib/languages/json';
 import 'highlight.js/styles/atom-one-dark.css';
@@ -6,7 +7,6 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { FieldsetModule } from 'primeng/fieldset';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
-import { sampleJsonData } from '../../../db/samplejson';
 import { StatesService } from '../services/states.service';
 
 hljs.registerLanguage('json', json);
@@ -24,13 +24,10 @@ export class CodeBlockComponent {
   ) {}
   @ViewChild('codeBlock') codeBlockElement!: ElementRef;
 
-  messageLife: number = 1500;
-  collapseCodeBlockFieldSet: boolean = true;
+  codeHTML!: SafeHtml;
 
   ngAfterViewInit() {
-    const formattedJson = JSON.stringify(sampleJsonData, undefined, 2);
-    this.codeBlockElement.nativeElement.innerHTML = formattedJson;
-
+    this.codeHTML = this.statesService.getSanitizedHTML();
     hljs.highlightElement(this.codeBlockElement.nativeElement);
   }
 
@@ -41,7 +38,7 @@ export class CodeBlockComponent {
         severity: 'info',
         summary: 'Success!',
         detail: 'JSON data copied to Clipboard',
-        life: this.messageLife,
+        life: this.statesService.messageLife(),
       });
     });
   }
