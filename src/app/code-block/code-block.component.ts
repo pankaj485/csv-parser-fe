@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { FieldsetModule } from 'primeng/fieldset';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { sampleJsonData } from '../../../db/samplejson';
+import { StatesService } from '../services/states.service';
 
 hljs.registerLanguage('json', json);
 @Component({
@@ -17,7 +18,10 @@ hljs.registerLanguage('json', json);
   styleUrl: './code-block.component.css',
 })
 export class CodeBlockComponent {
-  constructor(private messageService: MessageService) {}
+  constructor(
+    private messageService: MessageService,
+    public statesService: StatesService
+  ) {}
   @ViewChild('codeBlock') codeBlockElement!: ElementRef;
 
   messageLife: number = 1500;

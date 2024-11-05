@@ -1,4 +1,5 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
+import { sampleJsonData } from '../../../db/samplejson';
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +12,15 @@ export class StatesService {
 
   collapseFileUploadField: WritableSignal<boolean> = signal(false);
   collapseHeadersField: WritableSignal<boolean> = signal(true);
+  collapseCodeField: WritableSignal<boolean> = signal(true);
 
   uploadedFile: WritableSignal<File | null> = signal(null);
   fileHeaders: WritableSignal<string[]> = signal([]);
   selectedHeaders: WritableSignal<string[]> = signal([]);
+
+  parsedJson: WritableSignal<string> = signal(
+    JSON.stringify(sampleJsonData, undefined, 2)
+  );
 
   setSelectedHeaders(value: string[]) {
     this.selectedHeaders.set(value);
@@ -26,5 +32,9 @@ export class StatesService {
         .fill('')
         .map((_, i) => String('header ' + (i + 1)))
     );
+  }
+
+  getParsedData() {
+    return this.parsedJson();
   }
 }

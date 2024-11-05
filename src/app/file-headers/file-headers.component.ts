@@ -71,6 +71,7 @@ export class FileHeadersComponent {
       });
 
       this.statesService.collapseHeadersField.set(true);
+      this.statesService.collapseCodeField.set(false);
     }
   }
 }
