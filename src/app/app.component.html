@@ -39,24 +39,30 @@
 <section>
   <div class="card flex justify-content-center">
     <p-panel header="Select File Headers">
-      <div class="mainDiv">
-        <div *ngIf="fileHeaders.length">
-          <p-checkbox
-            [(ngModel)]="selectAll"
-            label="Select All"
-            [binary]="true"
-            (onChange)="toggleSelectAll($event)"
-          ></p-checkbox>
+      <p-scrollPanel [style]="{ width: '100%', height: '120px' }">
+        <div class="mainDiv">
+          <div *ngIf="fileHeaders.length">
+            <p-checkbox
+              [(ngModel)]="selectAll"
+              label="Select All"
+              [binary]="true"
+              (onChange)="toggleSelectAll($event)"
+            ></p-checkbox>
+          </div>
+          <div *ngFor="let header of fileHeaders">
+            <p-checkbox
+              [(ngModel)]="selectedFileHeaders"
+              [label]="header"
+              name="group"
+              [value]="header"
+              (ngModelChange)="checkAllHeadersSelected()"
+            ></p-checkbox>
+          </div>
         </div>
-        <div *ngFor="let header of fileHeaders">
-          <p-checkbox
-            [(ngModel)]="selectedFileHeaders"
-            [label]="header"
-            name="group"
-            [value]="header"
-            (ngModelChange)="checkAllHeadersSelected()"
-          ></p-checkbox>
-        </div>
+      </p-scrollPanel>
+      <p-divider />
+      <div style="margin-top: 0.5rem">
+        <p-button label="Convert to JSON" (onClick)="triggerFileParsing()" />
       </div>
     </p-panel>
   </div>

@@ -10,8 +10,10 @@ import {
 import { ButtonModule } from 'primeng/button';
 import { CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DividerModule } from 'primeng/divider';
 import { FileUploadHandlerEvent, FileUploadModule } from 'primeng/fileupload';
 import { PanelModule } from 'primeng/panel';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 
@@ -29,6 +31,8 @@ import { ToolbarModule } from 'primeng/toolbar';
     ConfirmDialogModule,
     CheckboxModule,
     PanelModule,
+    ScrollPanelModule,
+    DividerModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -46,7 +50,9 @@ export class AppComponent {
   maxFileSize: number = 1000000;
   uploadURL = '';
   messageLife: number = 1500;
-  fileHeaders: string[] = [];
+  fileHeaders: string[] = Array(50)
+    .fill('Header ')
+    .map((item, i) => item + (i + 1));
   selectedFileHeaders: string[] = [];
   selectAll: boolean = false;
 
@@ -94,7 +100,9 @@ export class AppComponent {
   }
 
   getFileHeaders() {
-    this.fileHeaders = ['Header 1', 'Header 2', 'Header 3'];
+    this.fileHeaders = Array(50)
+      .fill('Header 123')
+      .map((_, i) => _ + (i + 1));
   }
 
   onImageError(event: Event) {
@@ -112,5 +120,23 @@ export class AppComponent {
   checkAllHeadersSelected() {
     this.selectAll =
       this.fileHeaders.length === this.selectedFileHeaders.length;
+  }
+
+  triggerFileParsing() {
+    if (!this.selectedFileHeaders.length) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Rejected',
+        detail: 'At least 1 header should be selected',
+        life: this.messageLife,
+      });
+    } else {
+      this.messageService.add({
+        severity: 'info',
+        summary: 'Confirmed',
+        detail: 'Getting JSON data',
+        life: this.messageLife,
+      });
+    }
   }
 }
