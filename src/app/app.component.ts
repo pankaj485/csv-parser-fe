@@ -54,6 +54,7 @@ export class AppComponent {
     private messageService: MessageService
   ) {}
   @ViewChild('codeBlock') codeBlockElement!: ElementRef;
+  @ViewChild('fileUploadBlock') fileUploadElement!: ElementRef;
 
   title = 'CSV2JSON-A18';
   uploadedFile?: File;
@@ -65,6 +66,9 @@ export class AppComponent {
     .map((item, i) => item + (i + 1));
   selectedFileHeaders: string[] = [];
   selectAll: boolean = false;
+  collapseFileUploadFieldSet: boolean = false;
+  collapseFileHeadersFieldSet: boolean = true;
+  collapseCodeBlockFieldSet: boolean = true;
 
   ngAfterViewInit() {
     const formattedJson = JSON.stringify(sampleJsonData, undefined, 2);
@@ -117,6 +121,9 @@ export class AppComponent {
   }
 
   getFileHeaders() {
+    this.collapseFileUploadFieldSet = true;
+    this.collapseFileHeadersFieldSet = false;
+
     this.fileHeaders = Array(50)
       .fill('Header 123')
       .map((_, i) => _ + (i + 1));
@@ -155,8 +162,8 @@ export class AppComponent {
         life: this.messageLife,
       });
 
-      const element = <HTMLElement>document.getElementById('codeBlock');
-      element.innerHTML = JSON.stringify(sampleJsonData, undefined, 2);
+      this.collapseFileHeadersFieldSet = true;
+      this.collapseCodeBlockFieldSet = false;
     }
   }
 
