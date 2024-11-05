@@ -79,13 +79,6 @@ export class AppComponent {
   collapseFileHeadersFieldSet: boolean = true;
   collapseCodeBlockFieldSet: boolean = true;
 
-  ngAfterViewInit() {
-    const formattedJson = JSON.stringify(sampleJsonData, undefined, 2);
-    this.codeBlockElement.nativeElement.innerHTML = formattedJson;
-
-    hljs.highlightElement(this.codeBlockElement.nativeElement);
-  }
-
   ngOnInit() {
     this.primengConfig.ripple = true;
     this.primengConfig.inputStyle.set('outlined');
@@ -102,17 +95,5 @@ export class AppComponent {
 
   onImageError(event: Event) {
     console.log(event);
-  }
-
-  copyToClipBoard() {
-    const data: string = this.codeBlockElement.nativeElement.innerText;
-    window.navigator.clipboard.writeText(data).then(() => {
-      this.messageService.add({
-        severity: 'info',
-        summary: 'Success!',
-        detail: 'JSON data copied to Clipboard',
-        life: this.messageLife,
-      });
-    });
   }
 }
