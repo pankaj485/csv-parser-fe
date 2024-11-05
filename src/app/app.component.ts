@@ -22,6 +22,10 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { sampleJsonData } from '../../db/samplejson';
 import { AccordionModule } from 'primeng/accordion';
+import { HeaderComponent } from './header/header.component';
+import { CodeBlockComponent } from './code-block/code-block.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
+import { FileHeadersComponent } from './file-headers/file-headers.component';
 hljs.registerLanguage('json', json);
 
 @Component({
@@ -42,6 +46,11 @@ hljs.registerLanguage('json', json);
     DividerModule,
     FieldsetModule,
     AccordionModule,
+
+    HeaderComponent,
+    CodeBlockComponent,
+    FileUploadComponent,
+    FileHeadersComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
