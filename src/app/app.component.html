@@ -35,3 +35,29 @@
     ></button>
   </div>
 </section>
+
+<section>
+  <div class="card flex justify-content-center">
+    <p-panel header="Select File Headers">
+      <div class="mainDiv">
+        <div *ngIf="fileHeaders.length">
+          <p-checkbox
+            [(ngModel)]="selectAll"
+            label="Select All"
+            [binary]="true"
+            (onChange)="toggleSelectAll($event)"
+          ></p-checkbox>
+        </div>
+        <div *ngFor="let header of fileHeaders">
+          <p-checkbox
+            [(ngModel)]="selectedFileHeaders"
+            [label]="header"
+            name="group"
+            [value]="header"
+            (ngModelChange)="checkAllHeadersSelected()"
+          ></p-checkbox>
+        </div>
+      </div>
+    </p-panel>
+  </div>
+</section>

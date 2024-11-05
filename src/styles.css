@@ -9,6 +9,7 @@ html {
 body {
   max-width: 1400px;
   margin: auto;
+  padding: 0.8rem;
 }
 
 .p-fileupload-content {
@@ -17,4 +18,10 @@ body {
 
 .p-toolbar {
   padding: 0.5rem !important;
+}
+
+@media screen and (max-width: 600px) {
+  html {
+    font-size: 13px;
+  }
 }

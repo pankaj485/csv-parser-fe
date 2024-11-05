@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import {
   ConfirmationService,
@@ -7,8 +8,10 @@ import {
   PrimeNGConfig,
 } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { FileUploadHandlerEvent, FileUploadModule } from 'primeng/fileupload';
+import { PanelModule } from 'primeng/panel';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 
@@ -17,12 +20,15 @@ import { ToolbarModule } from 'primeng/toolbar';
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     RouterOutlet,
     ToolbarModule,
     ButtonModule,
     ToastModule,
     FileUploadModule,
     ConfirmDialogModule,
+    CheckboxModule,
+    PanelModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -40,6 +46,9 @@ export class AppComponent {
   maxFileSize: number = 1000000;
   uploadURL = '';
   messageLife: number = 1500;
+  fileHeaders: string[] = [];
+  selectedFileHeaders: string[] = [];
+  selectAll: boolean = false;
 
   ngOnInit() {
     this.primengConfig.ripple = true;
@@ -48,7 +57,10 @@ export class AppComponent {
 
   uploadHandler(event: FileUploadHandlerEvent) {
     if (event.files[0]) {
-      this.getFileHeaders(event.files[0]);
+      const btn = <HTMLButtonElement>document.getElementById('confirmBtn');
+      const confirmationEvent = new Event('click');
+      btn.dispatchEvent(confirmationEvent);
+      this.triggerFileUploadConfirmation(confirmationEvent);
     }
   }
 
@@ -68,6 +80,7 @@ export class AppComponent {
           detail: 'Getting file headers',
           life: this.messageLife,
         });
+        this.getFileHeaders();
       },
       reject: () => {
         this.messageService.add({
@@ -80,15 +93,24 @@ export class AppComponent {
     });
   }
 
-  getFileHeaders(file: File) {
-    console.log(file);
-    const btn = <HTMLButtonElement>document.getElementById('confirmBtn');
-    const event = new Event('click');
-    btn.dispatchEvent(event);
-    this.triggerFileUploadConfirmation(event);
+  getFileHeaders() {
+    this.fileHeaders = ['Header 1', 'Header 2', 'Header 3'];
   }
 
   onImageError(event: Event) {
     console.log(event);
+  }
+
+  toggleSelectAll(event: CheckboxChangeEvent) {
+    if (event.checked) {
+      this.selectedFileHeaders = [...this.fileHeaders];
+    } else {
+      this.selectedFileHeaders = [];
+    }
+  }
+
+  checkAllHeadersSelected() {
+    this.selectAll =
+      this.fileHeaders.length === this.selectedFileHeaders.length;
   }
 }
