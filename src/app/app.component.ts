@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DividerModule } from 'primeng/divider';
+import { FieldsetModule } from 'primeng/fieldset';
 import { FileUploadHandlerEvent, FileUploadModule } from 'primeng/fileupload';
 import { PanelModule } from 'primeng/panel';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
@@ -33,6 +34,7 @@ import { ToolbarModule } from 'primeng/toolbar';
     PanelModule,
     ScrollPanelModule,
     DividerModule,
+    FieldsetModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -50,7 +52,7 @@ export class AppComponent {
   maxFileSize: number = 1000000;
   uploadURL = '';
   messageLife: number = 1500;
-  fileHeaders: string[] = Array(50)
+  fileHeaders: string[] = Array(5)
     .fill('Header ')
     .map((item, i) => item + (i + 1));
   selectedFileHeaders: string[] = [];
