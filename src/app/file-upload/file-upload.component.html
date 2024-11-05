@@ -2,7 +2,7 @@
   <p-fieldset
     legend="Upload CSV file"
     [toggleable]="true"
-    [collapsed]="collapseFileUploadFieldSet"
+    [collapsed]="statesService.collapseFileUploadField()"
   >
     <div class="card flex justify-content-center">
       <p-toast />
@@ -11,7 +11,7 @@
         [multiple]="false"
         customUpload="true"
         accept="text/csv"
-        [maxFileSize]="maxFileSize"
+        [maxFileSize]="statesService.maxFileSize()"
       >
       </p-fileUpload>
     </div>

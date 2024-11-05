@@ -4,6 +4,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { FieldsetModule } from 'primeng/fieldset';
 import { FileUploadHandlerEvent, FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
+import { StatesService } from '../services/states.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -15,19 +16,16 @@ import { ToastModule } from 'primeng/toast';
 export class FileUploadComponent {
   constructor(
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    public statesService: StatesService
   ) {}
-
-  messageLife: number = 1500;
-  maxFileSize: number = 1000000;
-  collapseFileUploadFieldSet: boolean = false;
 
   uploadHandler(event: FileUploadHandlerEvent) {
     if (event.files[0]) {
       const btn = <HTMLButtonElement>document.getElementById('confirmBtn');
       const confirmationEvent = new Event('click');
       btn.dispatchEvent(confirmationEvent);
-      // this.triggerFileUploadConfirmation(confirmationEvent);
+      this.statesService.uploadedFile.set(event.files[0]);
     }
   }
 
@@ -45,17 +43,17 @@ export class FileUploadComponent {
           severity: 'info',
           summary: 'Confirmed',
           detail: 'Getting file headers',
-          life: this.messageLife,
+          life: this.statesService.messageLife(),
         });
-        this.collapseFileUploadFieldSet = true;
-        // this.getFileHeaders();
+
+        this.statesService.collapseFileUploadField.set(true);
       },
       reject: () => {
         this.messageService.add({
           severity: 'error',
           summary: 'Rejected',
           detail: 'File parsing aborted',
-          life: this.messageLife,
+          life: this.statesService.messageLife(),
         });
       },
     });
