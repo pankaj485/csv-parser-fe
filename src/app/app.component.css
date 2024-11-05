@@ -5,3 +5,12 @@
   gap: 2rem;
   flex-wrap: wrap;
 }
+
+.p-accordion-content {
+  padding: 0;
+}
+
+code {
+  font-size: 14px;
+  cursor: pointer;
+}

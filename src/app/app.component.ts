@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import hljs from 'highlight.js/lib/core';
-import hljsJson from 'highlight.js/lib/languages/json';
+import json from 'highlight.js/lib/languages/json';
+import 'highlight.js/styles/atom-one-dark.css';
 import {
   ConfirmationService,
   MessageService,
@@ -20,7 +21,8 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { sampleJsonData } from '../../db/samplejson';
-hljs.registerLanguage('json', hljsJson);
+import { AccordionModule } from 'primeng/accordion';
+hljs.registerLanguage('json', json);
 
 @Component({
   selector: 'app-root',
@@ -39,6 +41,7 @@ hljs.registerLanguage('json', hljsJson);
     ScrollPanelModule,
     DividerModule,
     FieldsetModule,
+    AccordionModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -50,6 +53,7 @@ export class AppComponent {
     private confirmationService: ConfirmationService,
     private messageService: MessageService
   ) {}
+  @ViewChild('codeBlock') codeBlockElement!: ElementRef;
 
   title = 'CSV2JSON-A18';
   uploadedFile?: File;
@@ -62,7 +66,12 @@ export class AppComponent {
   selectedFileHeaders: string[] = [];
   selectAll: boolean = false;
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+    const formattedJson = JSON.stringify(sampleJsonData, undefined, 2);
+    this.codeBlockElement.nativeElement.innerHTML = formattedJson;
+
+    hljs.highlightElement(this.codeBlockElement.nativeElement);
+  }
 
   ngOnInit() {
     this.primengConfig.ripple = true;
