@@ -104,40 +104,6 @@ export class AppComponent {
     console.log(event);
   }
 
-  toggleSelectAll(event: CheckboxChangeEvent) {
-    if (event.checked) {
-      this.selectedFileHeaders = [...this.fileHeaders];
-    } else {
-      this.selectedFileHeaders = [];
-    }
-  }
-
-  checkAllHeadersSelected() {
-    this.selectAll =
-      this.fileHeaders.length === this.selectedFileHeaders.length;
-  }
-
-  triggerFileParsing() {
-    if (!this.selectedFileHeaders.length) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Rejected',
-        detail: 'At least 1 header should be selected',
-        life: this.messageLife,
-      });
-    } else {
-      this.messageService.add({
-        severity: 'info',
-        summary: 'Confirmed',
-        detail: 'Getting JSON data',
-        life: this.messageLife,
-      });
-
-      this.collapseFileHeadersFieldSet = true;
-      this.collapseCodeBlockFieldSet = false;
-    }
-  }
-
   copyToClipBoard() {
     const data: string = this.codeBlockElement.nativeElement.innerText;
     window.navigator.clipboard.writeText(data).then(() => {

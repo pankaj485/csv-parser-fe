@@ -1,11 +1,3 @@
-.mainDiv {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
 .p-accordion-content {
   padding: 0;
 }

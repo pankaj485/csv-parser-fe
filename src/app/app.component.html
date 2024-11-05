@@ -1,43 +1,6 @@
 <app-header />
 <app-file-upload />
-
-<section>
-  <div class="card flex justify-content-center">
-    <p-fieldset
-      legend="Select File Headers ({{ fileHeaders.length }}) "
-      [toggleable]="true"
-      [collapsed]="collapseFileHeadersFieldSet"
-    >
-      <p-scrollPanel
-        [style]="{ width: '100%', maxHeight: '120px', overflowY: 'scroll' }"
-      >
-        <div class="mainDiv">
-          <div *ngIf="fileHeaders.length">
-            <p-checkbox
-              [(ngModel)]="selectAll"
-              label="Select All"
-              [binary]="true"
-              (onChange)="toggleSelectAll($event)"
-            ></p-checkbox>
-          </div>
-          <div *ngFor="let header of fileHeaders">
-            <p-checkbox
-              [(ngModel)]="selectedFileHeaders"
-              [label]="header"
-              name="group"
-              [value]="header"
-              (ngModelChange)="checkAllHeadersSelected()"
-            ></p-checkbox>
-          </div>
-        </div>
-      </p-scrollPanel>
-      <p-divider />
-      <div style="margin-top: 0.5rem">
-        <p-button label="Convert to JSON" (onClick)="triggerFileParsing()" />
-      </div>
-    </p-fieldset>
-  </div>
-</section>
+<app-file-headers />
 
 <section
   id="codePreviewContainer"
