@@ -19,19 +19,7 @@ export class StatesService {
   fileHeaders: WritableSignal<string[]> = signal([]);
   selectedHeaders: WritableSignal<string[]> = signal([]);
 
-  parsedJson: WritableSignal<string> = signal(JSON.stringify({}, undefined, 2));
-
-  setSelectedHeaders(value: string[]) {
-    this.selectedHeaders.set(value);
-  }
-
-  getFileHeaders() {
-    this.fileHeaders.set(
-      Array(10)
-        .fill('')
-        .map((_, i) => String('header ' + (i + 1)))
-    );
-  }
+  parsedJson: WritableSignal<string> = signal('');
 
   getSanitizedHTML(): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(this.parsedJson());
