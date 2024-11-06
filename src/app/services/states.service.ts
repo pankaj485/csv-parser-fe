@@ -16,12 +16,11 @@ export class StatesService {
   collapseCodeField: WritableSignal<boolean> = signal(true);
 
   uploadedFile: WritableSignal<File | null> = signal(null);
+  fileId: WritableSignal<string> = signal('');
   fileHeaders: WritableSignal<string[]> = signal([]);
   selectedHeaders: WritableSignal<string[]> = signal([]);
 
-  parsedJson: WritableSignal<string> = signal(
-    JSON.stringify(sampleJsonData, undefined, 2)
-  );
+  parsedJson: WritableSignal<string> = signal(JSON.stringify({}, undefined, 2));
 
   setSelectedHeaders(value: string[]) {
     this.selectedHeaders.set(value);

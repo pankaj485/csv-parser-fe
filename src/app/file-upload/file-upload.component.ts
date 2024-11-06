@@ -55,11 +55,11 @@ export class FileUploadComponent {
         if (uploadedFile) {
           this.backendService.getFileHeaders(uploadedFile).subscribe((res) => {
             if (res.success) {
-              if (res.headers) {
-                this.statesService.fileHeaders.set(
-                  res?.headers.filter((header) => header)
-                );
-              }
+              const { fielId, headers } = res;
+              this.statesService.fileId.set(fielId ? fielId : '');
+              this.statesService.fileHeaders.set(
+                headers ? headers.filter((header) => header) : []
+              );
             }
           });
         }
