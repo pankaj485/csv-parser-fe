@@ -1,6 +1,5 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { sampleJsonData } from '../../../db/samplejson';
 
 @Injectable({
   providedIn: 'root',
