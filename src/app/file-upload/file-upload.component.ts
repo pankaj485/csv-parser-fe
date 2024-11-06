@@ -44,18 +44,10 @@ export class FileUploadComponent {
       rejectIcon: 'none',
       rejectButtonStyleClass: 'p-button-text',
       accept: () => {
-        this.messageService.add({
-          severity: 'info',
-          summary: 'Confirmed',
-          detail: 'Getting file headers',
-          life: this.statesService.messageLife(),
-        });
-
-        this.statesService.collapseFileUploadField.set(true);
-        this.statesService.collapseHeadersField.set(false);
-
         const uploadedFile = this.statesService.uploadedFile();
         if (uploadedFile) {
+          this.statesService.resetUIstates();
+          this.statesService.isFileHeadersLoading.set(true);
           this.backendService.getFileHeaders(uploadedFile).subscribe((res) => {
             if (res.success) {
               const { fileId: fielId, headers } = res;
@@ -63,6 +55,10 @@ export class FileUploadComponent {
               this.statesService.fileHeaders.set(
                 headers ? headers.filter((header) => header) : []
               );
+              this.statesService.isFileHeadersReceived.set(true);
+              this.statesService.isFileHeadersLoading.set(false);
+              this.statesService.collapseFileUploadField.set(true);
+              this.statesService.collapseHeadersField.set(false);
             }
           });
         }

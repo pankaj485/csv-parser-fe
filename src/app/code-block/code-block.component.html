@@ -5,6 +5,7 @@
   <div style="position: absolute; top: 2rem; right: 2rem">
     <p-button
       size="small"
+      [severity]="'secondary'"
       label="Copy to clipboard"
       (onClick)="copyToClipBoard()"
       [outlined]="true"
@@ -13,6 +14,7 @@
 
   <p-fieldset
     legend="Parsed JSON"
+    [style]="{ paddingBottom: '1rem' }"
     [toggleable]="true"
     [collapsed]="statesService.collapseCodeField()"
   >

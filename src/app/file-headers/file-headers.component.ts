@@ -61,17 +61,11 @@ export class FileHeadersComponent {
       this.messageService.add({
         severity: 'error',
         summary: 'Rejected',
-        detail: 'At least 1 header should be selected',
+        detail: 'Please select at least 1 Header',
         life: this.statesService.messageLife(),
       });
     } else {
-      this.messageService.add({
-        severity: 'info',
-        summary: 'Confirmed',
-        detail: 'Getting JSON data',
-        life: this.statesService.messageLife(),
-      });
-
+      this.statesService.isParsedDataLoading.set(true);
       this.backendService
         .getParsedJSON({
           fileId: this.statesService.fileId(),
@@ -83,11 +77,13 @@ export class FileHeadersComponent {
             this.statesService.parsedJson.set(
               JSON.stringify(data, undefined, 2)
             );
+
+            this.statesService.collapseHeadersField.set(true);
+            this.statesService.collapseCodeField.set(false);
+            this.statesService.isParsedDataReceived.set(true);
+            this.statesService.isParsedDataLoading.set(false);
           }
         });
-
-      this.statesService.collapseHeadersField.set(true);
-      this.statesService.collapseCodeField.set(false);
     }
   }
 }
