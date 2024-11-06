@@ -24,7 +24,7 @@ interface ParsedJsonRes extends ApiRes {
 export class BackendService {
   constructor(private http: HttpClient) {}
 
-  LOCAL_URL = 'http://localhost:8000';
+  LOCAL_URL = 'https://csv-parser-ts.koyeb.app';
   API_VERSION = 'api/v1';
   URL_ENDPOINTS = {
     FILE_UPLOAD: 'upload-file',
