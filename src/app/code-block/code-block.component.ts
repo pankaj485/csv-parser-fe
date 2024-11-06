@@ -1,9 +1,17 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { FieldsetModule } from 'primeng/fieldset';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { StatesService } from '../services/states.service';
+import Prism from 'prismjs';
+import 'prismjs/components/prism-json';
 
 @Component({
   selector: 'app-code-block',
@@ -12,12 +20,20 @@ import { StatesService } from '../services/states.service';
   templateUrl: './code-block.component.html',
   styleUrl: './code-block.component.css',
 })
-export class CodeBlockComponent {
+export class CodeBlockComponent implements AfterViewInit, AfterViewChecked {
   constructor(
     private messageService: MessageService,
     public statesService: StatesService
   ) {}
   @ViewChild('codeBlock') codeBlockElement!: ElementRef;
+
+  ngAfterViewInit(): void {
+    Prism.highlightElement(this.codeBlockElement.nativeElement);
+  }
+
+  ngAfterViewChecked(): void {
+    Prism.highlightElement(this.codeBlockElement.nativeElement);
+  }
 
   copyToClipBoard() {
     const data: string = this.codeBlockElement.nativeElement.innerText;
