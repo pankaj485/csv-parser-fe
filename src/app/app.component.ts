@@ -24,7 +24,6 @@ import { HeaderComponent } from './header/header.component';
 })
 export class AppComponent {
   constructor(private primengConfig: PrimeNGConfig) {}
-  title = 'CSV2JSON-A18';
 
   ngOnInit() {
     this.primengConfig.ripple = true;
