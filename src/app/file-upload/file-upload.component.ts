@@ -55,7 +55,7 @@ export class FileUploadComponent {
         if (uploadedFile) {
           this.backendService.getFileHeaders(uploadedFile).subscribe((res) => {
             if (res.success) {
-              const { fielId, headers } = res;
+              const { fileId: fielId, headers } = res;
               this.statesService.fileId.set(fielId ? fielId : '');
               this.statesService.fileHeaders.set(
                 headers ? headers.filter((header) => header) : []

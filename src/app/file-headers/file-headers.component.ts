@@ -8,6 +8,7 @@ import { DividerModule } from 'primeng/divider';
 import { FieldsetModule } from 'primeng/fieldset';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { StatesService } from '../services/states.service';
+import { BackendService } from '../services/backend.service';
 
 @Component({
   selector: 'app-file-headers',
@@ -27,7 +28,8 @@ import { StatesService } from '../services/states.service';
 export class FileHeadersComponent {
   constructor(
     private messageService: MessageService,
-    public statesService: StatesService
+    public statesService: StatesService,
+    private backendService: BackendService
   ) {}
 
   selectAll: boolean = false;
@@ -69,6 +71,20 @@ export class FileHeadersComponent {
         detail: 'Getting JSON data',
         life: this.statesService.messageLife(),
       });
+
+      this.backendService
+        .getParsedJSON({
+          fileId: this.statesService.fileId(),
+          headers: this.statesService.selectedHeaders(),
+        })
+        .subscribe((res) => {
+          const { data, success } = res;
+          if (success) {
+            this.statesService.parsedJson.set(
+              JSON.stringify(data, undefined, 2)
+            );
+          }
+        });
 
       this.statesService.collapseHeadersField.set(true);
       this.statesService.collapseCodeField.set(false);

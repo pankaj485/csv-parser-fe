@@ -2,11 +2,20 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 
-interface FileHeaderRes {
+interface ApiRes {
   success: boolean;
   message: string;
-  fielId?: string;
+}
+
+interface FileHeaderRes extends ApiRes {
+  fileId?: string;
   headers?: string[];
+}
+
+interface ParsedJsonRes extends ApiRes {
+  data?: {
+    [key: string]: string;
+  };
 }
 
 @Injectable({
@@ -33,6 +42,23 @@ export class BackendService {
       .post<FileHeaderRes>(
         `${this.BASE_URL}/${this.URL_ENDPOINTS.FILE_UPLOAD}`,
         formData
+      )
+      .pipe(
+        catchError((error) => {
+          console.error('Error occurred:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+  getParsedJSON(payload: {
+    fileId: string;
+    headers: string[];
+  }): Observable<ParsedJsonRes> {
+    return this.http
+      .post<ParsedJsonRes>(
+        `${this.BASE_URL}/${this.URL_ENDPOINTS.FILE_PARSE}`,
+        payload
       )
       .pipe(
         catchError((error) => {
