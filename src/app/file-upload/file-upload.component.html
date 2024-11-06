@@ -8,6 +8,8 @@
       <p-toast />
       <p-fileUpload
         (uploadHandler)="uploadHandler($event)"
+        [chooseLabel]="chooseLabel"
+        [uploadLabel]="uploadLabel"
         [multiple]="false"
         customUpload="true"
         accept="text/csv"

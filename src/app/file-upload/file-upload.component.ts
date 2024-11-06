@@ -22,6 +22,9 @@ export class FileUploadComponent {
     public backendService: BackendService
   ) {}
 
+  chooseLabel: string = 'Choose CSV File';
+  uploadLabel: string = 'Get CSV Headers';
+
   uploadHandler(event: FileUploadHandlerEvent) {
     if (event.files[0]) {
       const btn = <HTMLButtonElement>document.getElementById('confirmBtn');
