@@ -5,6 +5,7 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { FileUploadHandlerEvent, FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { StatesService } from '../services/states.service';
+import { BackendService } from '../services/backend.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -17,7 +18,8 @@ export class FileUploadComponent {
   constructor(
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    public statesService: StatesService
+    public statesService: StatesService,
+    public backendService: BackendService
   ) {}
 
   uploadHandler(event: FileUploadHandlerEvent) {
@@ -48,7 +50,19 @@ export class FileUploadComponent {
 
         this.statesService.collapseFileUploadField.set(true);
         this.statesService.collapseHeadersField.set(false);
-        this.statesService.getFileHeaders();
+
+        const uploadedFile = this.statesService.uploadedFile();
+        if (uploadedFile) {
+          this.backendService.getFileHeaders(uploadedFile).subscribe((res) => {
+            if (res.success) {
+              if (res.headers) {
+                this.statesService.fileHeaders.set(
+                  res?.headers.filter((header) => header)
+                );
+              }
+            }
+          });
+        }
       },
       reject: () => {
         this.messageService.add({
