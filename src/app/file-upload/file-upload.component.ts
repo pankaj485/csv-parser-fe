@@ -95,20 +95,37 @@ export class FileUploadComponent {
           this.statesService.resetUIstates();
           this.statesService.isFileHeadersLoading.set(true);
 
-          // this.triggerV2APIS(uploadedFile);
+          this.appwriteService.uploadFile(uploadedFile).subscribe({
+            next: (fileUploadRes: FileUploadRes) => {
+              if (fileUploadRes.success) {
+                const fileID = fileUploadRes.fileId;
+                this.statesService.fileId.set(fileID ? fileID : '');
 
-          this.backendService.getFileHeaders(uploadedFile).subscribe((res) => {
-            if (res.success) {
-              const { fileId: fielId, headers } = res;
-              this.statesService.fileId.set(fielId ? fielId : '');
-              this.statesService.fileHeaders.set(
-                headers ? headers.filter((header) => header) : []
-              );
-              this.statesService.isFileHeadersReceived.set(true);
-              this.statesService.isFileHeadersLoading.set(false);
-              this.statesService.collapseFileUploadField.set(true);
-              this.statesService.collapseHeadersField.set(false);
-            }
+                this.appwriteService.getFileHeaders(fileID).subscribe({
+                  next: (fileHeadersRes: FileHeaderRes) => {
+                    if (fileHeadersRes.success) {
+                      const headers = fileHeadersRes.data;
+
+                      this.statesService.fileHeaders.set(
+                        headers ? headers.filter((header) => header) : []
+                      );
+                      this.statesService.isFileHeadersReceived.set(true);
+                      this.statesService.isFileHeadersLoading.set(false);
+                      this.statesService.collapseFileUploadField.set(true);
+                      this.statesService.collapseHeadersField.set(false);
+                    }
+                  },
+                  error: (err) => {
+                    console.error('File upload failed:', err);
+                    return null;
+                  },
+                });
+              }
+            },
+            error: (err) => {
+              console.error('File upload failed:', err);
+              return null;
+            },
           });
         }
       },

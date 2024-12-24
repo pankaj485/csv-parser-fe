@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -9,6 +9,11 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { StatesService } from '../services/states.service';
 import { BackendService } from '../services/backend.service';
+import {
+  AppwriteService,
+  fileDataPayload,
+  FileDataRes,
+} from '../services/appwrite.service';
 
 @Component({
   selector: 'app-file-headers',
@@ -26,12 +31,12 @@ import { BackendService } from '../services/backend.service';
   styleUrl: './file-headers.component.css',
 })
 export class FileHeadersComponent {
-  constructor(
-    private messageService: MessageService,
-    public statesService: StatesService,
-    private backendService: BackendService
-  ) {}
+  constructor() {}
+  private messageService = inject(MessageService);
+  public statesService = inject(StatesService);
+  private backendService = inject(BackendService);
 
+  private appwriteService = inject(AppwriteService);
   selectAll: boolean = false;
   selectedFileHeaders!: string[];
 
@@ -66,16 +71,18 @@ export class FileHeadersComponent {
       });
     } else {
       this.statesService.isParsedDataLoading.set(true);
-      this.backendService
-        .getParsedJSON({
-          fileId: this.statesService.fileId(),
-          headers: this.statesService.selectedHeaders(),
-        })
-        .subscribe((res) => {
-          const { data, success } = res;
-          if (success) {
+
+      const payload: fileDataPayload = {
+        file_id: this.statesService.fileId(),
+        headers: this.statesService.selectedHeaders(),
+        header_row: 1,
+      };
+
+      this.appwriteService.getFileData(payload).subscribe({
+        next: (fileDataRes: FileDataRes) => {
+          if (fileDataRes.success) {
             this.statesService.parsedJson.set(
-              JSON.stringify(data, undefined, 2)
+              JSON.stringify(fileDataRes.data, undefined, 2)
             );
 
             this.statesService.collapseHeadersField.set(true);
@@ -83,7 +90,8 @@ export class FileHeadersComponent {
             this.statesService.isParsedDataReceived.set(true);
             this.statesService.isParsedDataLoading.set(false);
           }
-        });
+        },
+      });
     }
   }
 }
