@@ -30,7 +30,7 @@ export interface fileDataPayload {
 export class AppwriteService {
   private httpClient = inject(HttpClient);
 
-  private BASE_URL = 'http://localhost:8000';
+  private BASE_URL = 'https://csv-parser-ts.koyeb.app';
   private API_VERSION = 'api/v2';
   private URL_ENDPOINTS = {
     FILE_UPLOAD: `${this.BASE_URL}/${this.API_VERSION}/upload-file`,
