@@ -8,6 +8,7 @@
     <p-confirmDialog />
     <p-fileUpload
       (uploadHandler)="customUploadHandler($event)"
+      (onClear)="onFileRemove()"
       [chooseLabel]="chooseLabel"
       [uploadLabel]="uploadLabel"
       [multiple]="false"

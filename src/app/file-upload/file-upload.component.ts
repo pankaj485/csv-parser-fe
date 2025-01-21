@@ -72,6 +72,15 @@ export class FileUploadComponent {
     }
   }
 
+  onFileRemove() {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Rejected',
+      detail: 'File uploding aborted by user',
+      life: this.statesService.messageLife(),
+    });
+  }
+
   private triggerFileUpload(file: File) {
     this.appwriteService.uploadFile(file).subscribe({
       next: (fileUploadRes: FileUploadRes) => {
