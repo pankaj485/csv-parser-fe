@@ -4,28 +4,17 @@
     [toggleable]="true"
     [collapsed]="statesService.collapseFileUploadField()"
   >
-    <div class="card flex justify-content-center">
-      <p-toast />
-      <p-fileUpload
-        (uploadHandler)="uploadHandler($event)"
-        [chooseLabel]="chooseLabel"
-        [uploadLabel]="uploadLabel"
-        [multiple]="false"
-        customUpload="true"
-        accept="text/csv"
-        [maxFileSize]="statesService.maxFileSize()"
-      >
-      </p-fileUpload>
-    </div>
-
-    <div class="card flex justify-content-center gap-2">
-      <p-toast />
-      <p-confirmDialog />
-      <button
-        id="confirmBtn"
-        style="position: relative; top: -4rem; right: 10rem; z-index: -2000"
-        (click)="triggerFileUploadConfirmation($event)"
-      ></button>
-    </div>
+    <p-toast />
+    <p-confirmDialog />
+    <p-fileUpload
+      (uploadHandler)="customUploadHandler($event)"
+      [chooseLabel]="chooseLabel"
+      [uploadLabel]="uploadLabel"
+      [multiple]="false"
+      customUpload="true"
+      accept="text/csv"
+      [maxFileSize]="statesService.maxFileSize()"
+    >
+    </p-fileUpload>
   </p-fieldset>
 </section>

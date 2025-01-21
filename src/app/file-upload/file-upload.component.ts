@@ -32,110 +32,87 @@ export class FileUploadComponent {
   chooseLabel: string = 'Choose CSV File';
   uploadLabel: string = 'Get CSV Headers';
 
-  uploadHandler(event: FileUploadHandlerEvent) {
-    if (event.files[0]) {
-      const btn = <HTMLButtonElement>document.getElementById('confirmBtn');
-      const confirmationEvent = new Event('click');
-      btn.dispatchEvent(confirmationEvent);
-      this.statesService.uploadedFile.set(event.files[0]);
+  customUploadHandler(e: { files: File[] }): void {
+    const uploadedFile = e['files'][0];
+
+    if (!uploadedFile) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Rejected',
+        detail: 'File parsing aborted. No File uploaded',
+        life: this.statesService.messageLife(),
+      });
+    } else {
+      this.confirmationService.confirm({
+        message: 'Are you sure that you want to proceed?',
+        header: 'Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        acceptIcon: 'none',
+        rejectIcon: 'none',
+        rejectButtonStyleClass: 'p-button-text',
+        accept: () => {
+          this.messageService.add({
+            severity: 'info',
+            summary: 'Uploading File',
+            detail: 'Getting File Headers',
+            life: this.statesService.messageLife(),
+          });
+
+          this.triggerFileUpload(uploadedFile);
+        },
+        reject: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Rejected',
+            detail: 'File parsing aborted by user',
+            life: this.statesService.messageLife(),
+          });
+        },
+      });
     }
   }
 
-  triggerV2APIS(uploadedFile: File) {
-    this.appwriteService.uploadFile(uploadedFile).subscribe({
+  private triggerFileUpload(file: File) {
+    this.appwriteService.uploadFile(file).subscribe({
       next: (fileUploadRes: FileUploadRes) => {
         if (fileUploadRes.success) {
-          console.log('file uplod res: ', fileUploadRes);
-          this.appwriteService.getFileHeaders(fileUploadRes.fileId).subscribe({
+          const fileID = fileUploadRes.fileId;
+          this.statesService.fileId.set(fileID ? fileID : '');
+
+          this.appwriteService.getFileHeaders(fileID).subscribe({
             next: (fileHeadersRes: FileHeaderRes) => {
               if (fileHeadersRes.success) {
-                console.log('file headers: ', fileHeadersRes);
+                const headers = fileHeadersRes.data;
 
-                this.appwriteService
-                  .getFileData({
-                    file_id: fileUploadRes.fileId,
-                    header_row: 1,
-                    headers: fileHeadersRes.data,
-                  })
-                  .subscribe({
-                    next: (fileDataRes: FileDataRes) => {
-                      if (fileDataRes.success) {
-                        console.log('file data: ', fileDataRes.data);
-                      }
-                    },
-                  });
+                this.statesService.fileHeaders.set(
+                  headers ? headers.filter((header) => header) : []
+                );
+                this.statesService.isFileHeadersReceived.set(true);
+                this.statesService.isFileHeadersLoading.set(false);
+                this.statesService.collapseFileUploadField.set(true);
+                this.statesService.collapseHeadersField.set(false);
               }
             },
             error: (err) => {
-              console.error('File upload failed:', err);
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Oops',
+                detail: 'Something went wrong while getting file headers',
+                life: this.statesService.messageLife(),
+              });
               return null;
             },
           });
         }
       },
       error: (err) => {
-        console.error('File upload failed:', err);
-        return null;
-      },
-    });
-  }
-
-  triggerFileUploadConfirmation(event: Event) {
-    this.confirmationService.confirm({
-      target: event.target as EventTarget,
-      message: 'Are you sure that you want to proceed?',
-      header: 'Confirmation',
-      icon: 'pi pi-exclamation-triangle',
-      acceptIcon: 'none',
-      rejectIcon: 'none',
-      rejectButtonStyleClass: 'p-button-text',
-      accept: () => {
-        const uploadedFile = this.statesService.uploadedFile();
-        if (uploadedFile) {
-          this.statesService.resetUIstates();
-          this.statesService.isFileHeadersLoading.set(true);
-
-          this.appwriteService.uploadFile(uploadedFile).subscribe({
-            next: (fileUploadRes: FileUploadRes) => {
-              if (fileUploadRes.success) {
-                const fileID = fileUploadRes.fileId;
-                this.statesService.fileId.set(fileID ? fileID : '');
-
-                this.appwriteService.getFileHeaders(fileID).subscribe({
-                  next: (fileHeadersRes: FileHeaderRes) => {
-                    if (fileHeadersRes.success) {
-                      const headers = fileHeadersRes.data;
-
-                      this.statesService.fileHeaders.set(
-                        headers ? headers.filter((header) => header) : []
-                      );
-                      this.statesService.isFileHeadersReceived.set(true);
-                      this.statesService.isFileHeadersLoading.set(false);
-                      this.statesService.collapseFileUploadField.set(true);
-                      this.statesService.collapseHeadersField.set(false);
-                    }
-                  },
-                  error: (err) => {
-                    console.error('File upload failed:', err);
-                    return null;
-                  },
-                });
-              }
-            },
-            error: (err) => {
-              console.error('File upload failed:', err);
-              return null;
-            },
-          });
-        }
-      },
-      reject: () => {
         this.messageService.add({
           severity: 'error',
-          summary: 'Rejected',
-          detail: 'File parsing aborted',
+          summary: 'Oops',
+          detail: 'Something went wrong while uploading file',
           life: this.statesService.messageLife(),
         });
+        return null;
       },
     });
   }
