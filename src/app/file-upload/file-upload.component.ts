@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { FieldsetModule } from 'primeng/fieldset';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import {
@@ -16,13 +15,7 @@ import { CardComponent } from '../shared/card/card.component';
 @Component({
   selector: 'app-file-upload',
   standalone: true,
-  imports: [
-    FieldsetModule,
-    ToastModule,
-    FileUploadModule,
-    ConfirmDialogModule,
-    CardComponent,
-  ],
+  imports: [ToastModule, FileUploadModule, ConfirmDialogModule, CardComponent],
   templateUrl: './file-upload.component.html',
   styleUrl: './file-upload.component.css',
 })
