@@ -1,27 +1,18 @@
-<section
-  id="codePreviewContainer"
-  style="position: relative; border-radius: 0.3rem"
+<app-card
+  sectionTitle="Parsed JSON"
+  [collapsed]="statesService.collapseCodeField()"
 >
-  <div style="position: absolute; top: 2rem; right: 2rem">
+  <p-scrollPanel [style]="{ width: '100%', padding: 0 }">
     <p-button
+      id="copyToClipBoardBtn"
       size="small"
       [severity]="'secondary'"
       label="Copy to clipboard"
       (onClick)="copyToClipBoard()"
-      [outlined]="true"
+      [outlined]="false"
     />
-  </div>
-
-  <p-fieldset
-    legend="Parsed JSON"
-    [style]="{ paddingBottom: '1rem' }"
-    [toggleable]="true"
-    [collapsed]="statesService.collapseCodeField()"
-  >
-    <p-scrollPanel [style]="{ width: '100%', padding: 0 }">
-      <pre
-        style="margin-top: 0; padding: 0.5rem; height: 100%; max-height: 550px"
-      ><code class="language-json" #codeBlock [innerHTML]="statesService.getSanitizedHTML()"></code></pre>
-    </p-scrollPanel>
-  </p-fieldset>
-</section>
+    <pre
+      style="margin-top: 0; padding: 0.5rem; height: 100%; max-height: 550px"
+    ><code class="language-json" #codeBlock [innerHTML]="statesService.getSanitizedHTML()"></code></pre>
+  </p-scrollPanel>
+</app-card>

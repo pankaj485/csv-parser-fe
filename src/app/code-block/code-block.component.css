@@ -2,3 +2,9 @@ code {
   font-size: 14px;
   cursor: pointer;
 }
+
+#copyToClipBoardBtn {
+  position: absolute;
+  top: 1rem;
+  right: 3rem;
+}

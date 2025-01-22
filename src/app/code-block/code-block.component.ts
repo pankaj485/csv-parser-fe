@@ -7,16 +7,16 @@ import {
 } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { FieldsetModule } from 'primeng/fieldset';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { StatesService } from '../services/states.service';
 import Prism from 'prismjs';
 import 'prismjs/components/prism-json';
+import { CardComponent } from '../shared/card/card.component';
 
 @Component({
   selector: 'app-code-block',
   standalone: true,
-  imports: [ButtonModule, FieldsetModule, ScrollPanelModule],
+  imports: [ButtonModule, ScrollPanelModule, CardComponent],
   templateUrl: './code-block.component.html',
   styleUrl: './code-block.component.css',
 })

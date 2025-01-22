@@ -5,15 +5,14 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
 import { DividerModule } from 'primeng/divider';
-import { FieldsetModule } from 'primeng/fieldset';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
-import { StatesService } from '../services/states.service';
-import { BackendService } from '../services/backend.service';
 import {
   AppwriteService,
   fileDataPayload,
   FileDataRes,
 } from '../services/appwrite.service';
+import { StatesService } from '../services/states.service';
+import { CardComponent } from '../shared/card/card.component';
 
 @Component({
   selector: 'app-file-headers',
@@ -21,11 +20,11 @@ import {
   imports: [
     CommonModule,
     FormsModule,
-    FieldsetModule,
     ScrollPanelModule,
     CheckboxModule,
     DividerModule,
     ButtonModule,
+    CardComponent,
   ],
   templateUrl: './file-headers.component.html',
   styleUrl: './file-headers.component.css',
@@ -34,8 +33,6 @@ export class FileHeadersComponent {
   constructor() {}
   private messageService = inject(MessageService);
   public statesService = inject(StatesService);
-  private backendService = inject(BackendService);
-
   private appwriteService = inject(AppwriteService);
   selectAll: boolean = false;
   selectedFileHeaders!: string[];
