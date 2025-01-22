@@ -2,21 +2,27 @@ import { Component, inject } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { FieldsetModule } from 'primeng/fieldset';
-import { FileUploadHandlerEvent, FileUploadModule } from 'primeng/fileupload';
+import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
-import { StatesService } from '../services/states.service';
-import { BackendService } from '../services/backend.service';
 import {
   AppwriteService,
-  FileDataRes,
   FileHeaderRes,
   FileUploadRes,
 } from '../services/appwrite.service';
+import { BackendService } from '../services/backend.service';
+import { StatesService } from '../services/states.service';
+import { CardComponent } from '../shared/card/card.component';
 
 @Component({
   selector: 'app-file-upload',
   standalone: true,
-  imports: [FieldsetModule, ToastModule, FileUploadModule, ConfirmDialogModule],
+  imports: [
+    FieldsetModule,
+    ToastModule,
+    FileUploadModule,
+    ConfirmDialogModule,
+    CardComponent,
+  ],
   templateUrl: './file-upload.component.html',
   styleUrl: './file-upload.component.css',
 })

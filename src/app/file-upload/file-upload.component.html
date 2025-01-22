@@ -1,21 +1,18 @@
-<section class="fileUploadContainer">
-  <p-fieldset
-    legend="Upload CSV file"
-    [toggleable]="true"
-    [collapsed]="statesService.collapseFileUploadField()"
+<app-card
+  sectionTitle="Upload CSV File"
+  [collapsed]="statesService.collapseFileUploadField()"
+>
+  <p-toast />
+  <p-confirmDialog />
+  <p-fileUpload
+    (uploadHandler)="customUploadHandler($event)"
+    (onClear)="onFileRemove()"
+    [chooseLabel]="chooseLabel"
+    [uploadLabel]="uploadLabel"
+    [multiple]="false"
+    customUpload="true"
+    accept="text/csv"
+    [maxFileSize]="statesService.maxFileSize()"
   >
-    <p-toast />
-    <p-confirmDialog />
-    <p-fileUpload
-      (uploadHandler)="customUploadHandler($event)"
-      (onClear)="onFileRemove()"
-      [chooseLabel]="chooseLabel"
-      [uploadLabel]="uploadLabel"
-      [multiple]="false"
-      customUpload="true"
-      accept="text/csv"
-      [maxFileSize]="statesService.maxFileSize()"
-    >
-    </p-fileUpload>
-  </p-fieldset>
-</section>
+  </p-fileUpload>
+</app-card>
