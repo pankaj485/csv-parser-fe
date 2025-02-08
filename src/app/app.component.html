@@ -1,25 +1,3 @@
 <app-header />
-<app-file-upload />
 
-@if (statesService.isFileHeadersLoading()) {
-<p-messages
-  [(value)]="fileHeadersLoadingMessage"
-  [enableService]="true"
-  [closable]="false"
-/>
-} @else { @if(statesService.isFileHeadersReceived()){
-<app-file-headers />
-} }
-
-<!--  -->
-
-@if (statesService.isParsedDataLoading()) {
-<p-messages
-  [(value)]="parsedDataLoadingMessage"
-  [enableService]="true"
-  [closable]="false"
-/>
-}@else { @if(statesService.isParsedDataReceived()){
-<app-code-block />
-} }
-<!--  -->
+<app-file-parser />
