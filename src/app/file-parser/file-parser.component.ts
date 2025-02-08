@@ -3,7 +3,7 @@ import { FileUploadComponent } from '../file-upload/file-upload.component';
 import { FileHeadersComponent } from '../file-headers/file-headers.component';
 import { CodeBlockComponent } from '../code-block/code-block.component';
 import { StatesService } from '../services/states.service';
-import { Message } from 'primeng/api';
+import { ConfirmationService, Message, MessageService } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
 
 @Component({
@@ -17,6 +17,7 @@ import { MessagesModule } from 'primeng/messages';
   ],
   templateUrl: './file-parser.component.html',
   styleUrl: './file-parser.component.css',
+  providers: [ConfirmationService, MessageService],
 })
 export class FileParserComponent {
   statesService = inject(StatesService);

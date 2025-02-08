@@ -1,14 +1,19 @@
 <section class="card">
   <p-toolbar>
     <div class="p-toolbar-group-start">
-      <h3 style="margin: 0 auto">CSV2JSON</h3>
+      <a routerLink="parser">
+        <p-button size="small" label="CSV2JSON" />
+      </a>
     </div>
     <div class="p-toolbar-group-center">
       <p style="margin: 0" class="p-input-icon-left">
         Parse CSV file into JSON data
       </p>
     </div>
-    <div class="p-toolbar-group-end">
+    <div class="p-toolbar-group-end" style="display: flex; gap: 0.5rem">
+      <a routerLink="analytics">
+        <p-button size="small" label="Analytics" icon="pi pi-chart-bar" />
+      </a>
       <a href="https://github.com/pankaj485/csv-parser-fe" target="_blank">
         <p-button label="GitHub" icon="pi pi-github" size="small" />
       </a>

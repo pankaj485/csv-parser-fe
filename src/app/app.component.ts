@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {
-  ConfirmationService,
-  MessageService,
-  PrimeNGConfig,
-} from 'primeng/api';
+import { PrimeNGConfig } from 'primeng/api';
 import { HeaderComponent } from './header/header.component';
-import { StatesService } from './services/states.service';
 
 @Component({
   selector: 'app-root',
@@ -14,13 +9,9 @@ import { StatesService } from './services/states.service';
   imports: [HeaderComponent, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  providers: [MessageService, ConfirmationService],
 })
 export class AppComponent {
-  constructor(
-    private primengConfig: PrimeNGConfig,
-    public statesService: StatesService
-  ) {}
+  constructor(private primengConfig: PrimeNGConfig) {}
 
   ngOnInit() {
     this.primengConfig.ripple = true;
