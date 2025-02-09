@@ -18,6 +18,7 @@
     "@angular/platform-browser": "^18.2.0",
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/router": "^18.2.0",
+    "highcharts-angular": "^4.0.1",
     "primeicons": "^7.0.0",
     "primeng": "^17.18.10",
     "prism-themes": "^1.9.0",

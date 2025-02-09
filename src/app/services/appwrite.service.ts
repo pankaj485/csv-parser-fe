@@ -36,6 +36,7 @@ export class AppwriteService {
     FILE_UPLOAD: `${this.BASE_URL}/${this.API_VERSION}/upload-file`,
     FILE_HEADERS: `${this.BASE_URL}/${this.API_VERSION}/get-file-headers`,
     FILE_DATA: `${this.BASE_URL}/${this.API_VERSION}/get-file-data`,
+    STATS_DATA: `${this.BASE_URL}/${this.API_VERSION}/get-files-stat`,
   };
 
   uploadFile(file: File) {
@@ -65,5 +66,11 @@ export class AppwriteService {
       this.URL_ENDPOINTS.FILE_DATA,
       payload
     );
+  }
+
+  getFilesStat() {
+    return this.httpClient.get(this.URL_ENDPOINTS.STATS_DATA, {
+      observe: 'response',
+    });
   }
 }
