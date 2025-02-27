@@ -6,6 +6,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { MessageService } from 'primeng/api';
 import { StatesService } from '../services/states.service';
 import { ToastModule } from 'primeng/toast';
+import { LoaderComponent } from '../shared/loader/loader.component';
 
 interface StatData {
   success: boolean;
@@ -17,7 +18,7 @@ interface StatData {
 @Component({
   selector: 'app-files-stat',
   standalone: true,
-  imports: [CardModule, HighchartsChartModule, ToastModule],
+  imports: [CardModule, HighchartsChartModule, ToastModule, LoaderComponent],
   templateUrl: './files-stat.component.html',
   styleUrl: './files-stat.component.css',
   providers: [MessageService],
