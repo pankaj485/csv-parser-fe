@@ -56,6 +56,7 @@ export class FilesStatComponent implements OnInit {
         'Sep',
         'Oct',
         'Nov',
+        'Dec',
       ],
     },
     yAxis: {
