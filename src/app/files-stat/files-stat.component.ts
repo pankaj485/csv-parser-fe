@@ -92,7 +92,7 @@ export class FilesStatComponent implements OnInit {
     this.chartDataLoaded = true;
     this.chartOptions.series = [
       {
-        type: 'areaspline',
+        type: 'column',
         data: data,
         name: 'Files Parsed',
       },
