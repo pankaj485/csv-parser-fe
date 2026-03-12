@@ -8,7 +8,7 @@ export class StatesService {
   constructor(private sanitizer: DomSanitizer) {}
 
   messageLife: WritableSignal<number> = signal(1500);
-  maxFileSize: WritableSignal<number> = signal(1000000);
+  maxFileSize: WritableSignal<number> = signal(2000000);
 
   collapseFileUploadField: WritableSignal<boolean> = signal(false);
   collapseHeadersField: WritableSignal<boolean> = signal(true);
